@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HeroDetailComponent } from '../hero-detail/hero-detail.component';
 import { HeroService } from '../hero.service';
+import { MessageService } from '../message.service';
 import { Hero } from '../types/hero';
 
 @Component({
@@ -15,14 +16,19 @@ import { Hero } from '../types/hero';
 export class HeroesComponent {
   heroes: Hero[] = [];
   selectedHero?: Hero;
-  onSelect(hero: Hero): void {
-    this.selectedHero = hero;
-  }
 
-  constructor(private heroService: HeroService) {}
+  constructor(
+    private heroService: HeroService,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
     this.getHeroes();
+  }
+
+  onSelect(hero: Hero): void {
+    this.selectedHero = hero;
+    this.messageService.add(`HeroesComponent: Selected hero id=${hero.id}`);
   }
 
   getHeroes(): void {
